@@ -31,10 +31,10 @@
     "**Titel:** *Kriminalitetens mønstre i Danmark: BI og AI-analyse af dømtes baggrund og forbrydelser*  \n",
     "\n",
     "**Milestones:**  \n",
-    "- Uge 1–2: Research og dataindsamling  \n",
-    "- Uge 3: Dataklargøring (rensning, strukturering)  \n",
-    "- Uge 4–6: Analyse og modelbygning (BI-visualisering, AI-mønsteranalyse)  \n",
-    "- Uge 7: Evaluering og præsentation af resultater  \n",
+    "- Uge 1: Research og dataindsamling  \n",
+    "- Uge 2: Dataklargøring (rensning, strukturering)  \n",
+    "- Uge 3: Analyse og modelbygning (BI-visualisering, AI-mønsteranalyse)  \n",
+    "- Uge 4: Evaluering og præsentation af resultater  \n",
     "\n",
     "**Teamwork (eksempel):**  \n",
     "- Dataindsamling og dokumentation: Person A  \n",
@@ -44,10 +44,17 @@
     "\n",
     "**Udviklingsplatform:**  \n",
     "- GitHub til versionsstyring og dokumentation  \n",
-    "- Python (Jupyter Notebook, Pandas, Scikit-learn) til analyse og AI  \n",
-    "- Power BI eller Tableau til visualisering  \n",
-    "- IDE: VS Code eller PyCharm  \n"
+    "- Python (Jupyter Notebook, Pandas, Scikit-learn, seaborn) til analyse og AI  \n",
+    "- IDE: jupyter lab\n"
    ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "255b5745-f93e-41a4-ac6b-67e581701c2e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {
