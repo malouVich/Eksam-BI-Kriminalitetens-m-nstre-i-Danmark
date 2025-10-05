@@ -8,6 +8,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 import seaborn as sns
+import pickle
 
 # --------------------------
 # 1. Load clean dataset
@@ -75,7 +76,7 @@ with tab1:
     """)
 
 # --------------------------
-# TAB 2: ML Predictions
+# TAB 2: ML Predictions with multiple features
 # --------------------------
 with tab2:
     st.header("ML Forudsigelser")
@@ -83,23 +84,34 @@ with tab2:
     Simpelt eksempel med **lineær regression** for at forudsige kriminalitetstal fremad.
     """)
 
+    # Summer alle værdier pr. år
     df_total = filtered_df[year_cols].sum().reset_index()
     df_total.columns = ["Year", "Value"]
     df_total["Year"] = df_total["Year"].astype(int)
 
+    # Features og target
     X = df_total[["Year"]]
     y = df_total["Value"]
 
+    # Split data
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
+
+    # Træn model
     model = LinearRegression()
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
 
-    st.write(f"**Model performance:** R² = {r2_score(y_test, y_pred):.2f}, MSE = {mean_squared_error(y_test, y_pred):.2f}")
+    # Beregn model performance
+    mse = mean_squared_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
 
+    st.write(f"**Model performance:** R² = {r2:.2f}, MSE = {mse:.2f}")
+
+    # Fremtidige år og forudsigelser
     future_years = pd.DataFrame({"Year": [2024, 2025, 2026, 2027]})
     future_preds = model.predict(future_years)
 
+    # Plot historiske data, test og fremtidige prognoser
     fig, ax = plt.subplots(figsize=(10,6))
     ax.plot(X, y, label="Historiske data", marker="o")
     ax.plot(X_test, y_pred, label="Test forudsigelser", linestyle="--", color="red")
@@ -109,6 +121,26 @@ with tab2:
     ax.set_ylabel("Antal personer")
     ax.legend()
     st.pyplot(fig)
+
+    # Forklaring af forudsigelserne
+    st.markdown(f"""
+**Forklaring af forudsigelserne:**  
+
+Vi bruger en **lineær regressionsmodel** til at forudsige kriminalitetstal i Danmark for de kommende år baseret på historiske data (2015-2023). Modellen estimerer antallet af personer, der vil blive fundet skyldige, og tager udgangspunkt i den observerede udvikling i de seneste år.  
+
+- **Historiske data:** viser den faktiske udvikling i kriminalitetstal fra 2015 til 2023.  
+- **Testforudsigelser:** viser, hvor godt modellen passer på de seneste kendte data.  
+- **Fremtidige prognoser:** viser forventede værdier for 2024-2027 baseret på trends.  
+
+**Modelpræstation:**  
+- R² = {r2:.2f} → modellen forklarer {r2*100:.0f}% af variationen i data.  
+- MSE = {mse:.2f} → angiver den gennemsnitlige kvadratiske fejl mellem modelens forudsigelser og de faktiske tal.  
+
+**Bemærk:** Lineær regression antager en konstant trend. Pludselige ændringer (fx nye love eller samfundsmæssige begivenheder) kan påvirke nøjagtigheden. Prognoserne bliver mere usikre, jo længere ud i fremtiden de gælder.  
+
+**Praktisk anvendelse:**  
+Disse forudsigelser kan hjælpe kommuner og politimyndigheder med at planlægge ressourcer og målrette forebyggende indsats.
+""")
 
 # --------------------------
 # TAB 3: Clustering
