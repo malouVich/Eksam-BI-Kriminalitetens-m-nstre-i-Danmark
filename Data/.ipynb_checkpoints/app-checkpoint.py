@@ -61,6 +61,28 @@ tab1, tab2, tab3 = st.tabs(["📊 Dataanalyse", "🤖 ML Forudsigelser", "🟢 K
 with tab1:
     st.header("Dataanalyse")
 
+    st.markdown("""
+### Forklaring af dataanalysen
+
+Denne fane viser udviklingen i kriminalitet fordelt på køn og socioøkonomisk status i perioden **2015–2023**.  
+Ved at vælge en bestemt socioøkonomisk status og køn i sidebaren, kan du se hvordan kriminaliteten har ændret sig over tid.
+
+**Formål:**  
+At identificere hvilke grupper, der har haft stigende eller faldende kriminalitetstendenser, og hvor der kan være behov for forebyggelse.
+
+**Fortolkning af grafen:**
+- **X-akse:** År (2015–2023)  
+- **Y-akse:** Antal personer dømt for kriminalitet  
+- **Farver:** Mænd og kvinder (eller begge kombineret)
+- **Linjer:** Udvikling over tid for den valgte socioøkonomiske gruppe  
+
+**Eksempel:**  
+Hvis man vælger *arbejdsløse mænd*, kan man observere, om kriminaliteten er steget eller faldet i denne gruppe gennem årene.  
+
+**Praktisk anvendelse:**  
+Disse observationer kan bruges til at støtte **sociale initiativer, uddannelsesindsatser** eller **lokale forebyggelsesstrategier**.
+""")
+
     fig, ax = plt.subplots(figsize=(10,6))
     totals = filtered_df[year_cols].sum()
     ax.plot(year_cols, totals, marker="o", label="Total")
@@ -147,6 +169,32 @@ Disse forudsigelser kan hjælpe kommuner og politimyndigheder med at planlægge 
 # --------------------------
 with tab3:
     st.header("Klyngedannelse af kriminalitetsdata")
+    st.markdown("""
+### Forklaring af klyngedannelsen
+
+I denne fane anvendes **K-Means klyngedannelse**, en metode fra *unsupervised machine learning*, til at finde mønstre i kriminalitetsdataene.
+
+**Formål:**  
+At gruppere lignende observationer sammen ud fra kriminalitetsniveau over udvalgte år.
+
+**Sådan fungerer det:**  
+- Data standardiseres (gennemsnit = 0, standardafvigelse = 1) for at gøre årstal sammenlignelige.  
+- Brugeren vælger antallet af klynger (2–10).  
+- Algoritmen fordeler observationerne i grupper, så variationen inden for hver gruppe minimeres.
+
+**Fortolkning af grafen:**
+- Hver prik repræsenterer en observation (fx en socioøkonomisk kategori).  
+- **Farverne** viser, hvilken klynge observationen tilhører.  
+- **X-akse og Y-akse:** De valgte årstal, som bruges til at sammenligne udviklingen.
+
+**Eksempel:**  
+Hvis to kategorier (fx “Arbejdsløse mænd” og “Ikke-arbejdende unge kvinder”) ligger tæt i diagrammet, betyder det, at deres kriminalitetsmønstre over tid ligner hinanden.
+
+**Praktisk anvendelse:**  
+Klyngedannelse kan hjælpe beslutningstagere med at identificere:
+- Hvilke grupper der opfører sig ens over tid  
+- Hvor der kan sættes målrettede sociale eller forebyggende tiltag ind  
+""")
     st.markdown("Vælg årstal til clustering:")
 
     selected_features = st.multiselect("Vælg år", options=year_cols, default=year_cols[:2])
